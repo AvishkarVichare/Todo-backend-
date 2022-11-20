@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 const ToDoSchema = new mongoose.Schema({
     title:String,
     tasks:[{
-        taskid:Number,
-        main:String
+        main: String
     }]
 })
 

@@ -1,5 +1,6 @@
 const Todo = require('../models/Todo');
 
+// get all task from specific todo  
 exports.getTasksController = async (req, res)=>{
 
     try{
@@ -26,7 +27,7 @@ exports.getTasksController = async (req, res)=>{
 }
 
 // create tasks 
-exports.createTaskController = async (req, res)=>{
+exports.addTaskController = async (req, res)=>{
     try{
 
         const {todoId} = req.params;
@@ -35,9 +36,15 @@ exports.createTaskController = async (req, res)=>{
             throw new Error("no such todo exists");
         
         const todo = await Todo.findById(todoId);
+
         // inserting task 
-        const tasks = todo.tasks.push(req.body.main);
-        
+        todo.tasks.push({main: req.body.main});
+        const savedTask = await Todo.findByIdAndUpdate(todoId, todo);
+        res.status(200).json({
+            success: true,
+            message: "tasks successfully added",
+            savedTask
+        })
     }
     catch(err){
         res.status(401).json({
@@ -46,3 +53,4 @@ exports.createTaskController = async (req, res)=>{
         })
     }
 }
+

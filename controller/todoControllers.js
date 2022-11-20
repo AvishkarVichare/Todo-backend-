@@ -1,5 +1,6 @@
 const Todo = require('../models/Todo');
 
+// get todos 
 exports.getTodosController = async (req, res)=>{
     try{
 
@@ -18,6 +19,7 @@ exports.getTodosController = async (req, res)=>{
     }
 }
 
+// create todo 
 exports.createTodoController = async (req, res)=>{
     try{
 
@@ -35,6 +37,33 @@ exports.createTodoController = async (req, res)=>{
             todo: savedTodo
         })
         
+    }
+    catch(err){
+        res.status(401).json({
+            success: false,
+            message: err.message,
+        })
+    }
+}
+
+
+// edit todo only title 
+exports.editTodoController = async (req, res)=>{
+    try{
+
+        const {todoId} = req.params;
+        const checkToExists = await Todo.findById(todoId);
+        if(!checkToExists)
+         throw new Error("no such todo exists");
+        const todo = await Todo.findById(todoId);
+
+        // editing todo title 
+        console.log(todo)
+        todo.title = req.body.title;
+        // console.log(todo)
+        const editTodo = await Todo.findByIdAndUpdate(todoId, todo);
+        res.json("success")
+
     }
     catch(err){
         res.status(401).json({
