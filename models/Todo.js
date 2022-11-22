@@ -2,8 +2,20 @@ const mongoose = require('mongoose');
 
 const ToDoSchema = new mongoose.Schema({
     title:String,
+    date:{
+        type: Date,
+        default: Date.now
+    },
     tasks:[{
-        main: String
+        main: String,
+        checked:{
+            type:Boolean,
+            default:false,
+        },
+        createdat:{
+            type: Date,
+            default: Date.now
+        }
     }]
 })
 

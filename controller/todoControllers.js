@@ -62,8 +62,37 @@ exports.editTodoController = async (req, res)=>{
         todo.title = req.body.title;
         // console.log(todo)
         const editTodo = await Todo.findByIdAndUpdate(todoId, todo);
-        res.json("success")
+        res.status(200).json({
+            success: true,
+            message: "successfully edited todo",
+            editedTodo: todo
+        })
 
+    }
+    catch(err){
+        res.status(401).json({
+            success: false,
+            message: err.message,
+        })
+    }
+}
+
+
+exports.deleteTodoController = async (req, res)=>{
+    try{
+        
+        const {todoId} = req.params;
+        const checkToExists = await Todo.findById(todoId);
+        if(!checkToExists)
+         throw new Error("no such todo exists");
+
+        const deletedTodo = await Todo.findByIdAndDelete(todoId);
+        res.status(200).json({
+            success: true,
+            message: "successfully deleted todo",
+            deletedTodo: deletedTodo
+        })
+        
     }
     catch(err){
         res.status(401).json({
