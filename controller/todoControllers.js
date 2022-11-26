@@ -23,12 +23,13 @@ exports.getTodosController = async (req, res)=>{
 exports.createTodoController = async (req, res)=>{
     try{
 
-        const {title} = req.body;
+        const {title, color} = req.body;
         if(!title)
          throw new Error("title can't be empty");
 
         const todo = new Todo({
-            title
+            title,
+            color
         })
         const savedTodo = await todo.save();
         res.status(200).json({

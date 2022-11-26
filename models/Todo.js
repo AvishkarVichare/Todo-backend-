@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const ToDoSchema = new mongoose.Schema({
     title:String,
+    color:String,
     date:{
         type: Date,
         default: Date.now
