@@ -43,7 +43,7 @@ exports.addTaskController = async (req, res)=>{
         res.status(200).json({
             success: true,
             message: "tasks successfully added",
-            savedTask
+            todo
         })
     }
     catch(err){

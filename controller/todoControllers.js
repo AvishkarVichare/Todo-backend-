@@ -3,8 +3,8 @@ const Todo = require('../models/Todo');
 // get todos 
 exports.getTodosController = async (req, res)=>{
     try{
-
-        const todos = await Todo.find();
+        // const user = req.user;
+        const todos = await Todo.find({user:req.user.user_id});
         res.status(200).json({
             success: true,
             message: "successfully retrieved",
@@ -22,6 +22,11 @@ exports.getTodosController = async (req, res)=>{
 // create todo 
 exports.createTodoController = async (req, res)=>{
     try{
+        const user = req.user;
+        // console.log(user)
+        if(!user)
+         throw new Error("user not found and you are not allowed");
+            
 
         const {title, color} = req.body;
         if(!title)
@@ -29,7 +34,8 @@ exports.createTodoController = async (req, res)=>{
 
         const todo = new Todo({
             title,
-            color
+            color,
+            user:user.user_id
         })
         const savedTodo = await todo.save();
         res.status(200).json({
