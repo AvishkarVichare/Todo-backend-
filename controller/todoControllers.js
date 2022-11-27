@@ -53,14 +53,16 @@ exports.editTodoController = async (req, res)=>{
     try{
 
         const {todoId} = req.params;
+        const {title, color} = req.body;
         const checkToExists = await Todo.findById(todoId);
         if(!checkToExists)
          throw new Error("no such todo exists");
         const todo = await Todo.findById(todoId);
 
         // editing todo title 
-        console.log(todo)
-        todo.title = req.body.title;
+        // console.log(todo)
+        todo.title = title;
+        todo.color = color;
         // console.log(todo)
         const editTodo = await Todo.findByIdAndUpdate(todoId, todo);
         res.status(200).json({
