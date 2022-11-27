@@ -91,3 +91,25 @@ exports.loginUserController = async (req, res) => {
         })
     }
 }
+
+
+// get user 
+exports.getUserController = async(req,res)=>{
+    try{
+        const user = await User.findById(req.user.user_id);
+        if(!user)
+        throw new Error("no such user exists");
+        user.password = undefined;
+        res.status(201).json({
+            success:true,
+            user
+        })
+
+    }
+    catch (err) {
+        res.status(401).json({
+            success: false,
+            message: err.message,
+        })
+    }
+}
