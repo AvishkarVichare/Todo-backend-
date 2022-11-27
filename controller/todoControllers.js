@@ -58,7 +58,7 @@ exports.editTodoController = async (req, res)=>{
         if(!checkToExists)
          throw new Error("no such todo exists");
         const todo = await Todo.findById(todoId);
-
+    
         // editing todo title 
         // console.log(todo)
         todo.title = title;

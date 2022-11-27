@@ -38,7 +38,7 @@ exports.addTaskController = async (req, res)=>{
         const todo = await Todo.findById(todoId);
 
         // inserting task 
-        todo.tasks.push({main: req.body.main});
+        todo.tasks.push({main: req.body.main, taskupdatedAt:new Date()});
         const savedTask = await Todo.findByIdAndUpdate(todoId, todo);
         res.status(200).json({
             success: true,
@@ -123,10 +123,13 @@ exports.editTaskController = async (req, res)=>{
         if(checkTaskExist.length==0)
          throw new Error("no such task exists");
 
+
+
         // creating new task with new targeted task 
         const updatedTasks = todo.tasks.map(e=>{
             if(e._id==taskId){
                 e.main = req.body.main;
+                e.taskupdatedAt = new Date()
                 return e;
             }
             

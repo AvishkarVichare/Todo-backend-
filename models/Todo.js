@@ -13,11 +13,20 @@ const ToDoSchema = new mongoose.Schema({
             type:Boolean,
             default:false,
         },
-        createdat:{
+        taskcreatedat:{
             type: Date,
             default: Date.now
+        },
+        taskupdatedAt:{
+            type:Date,
+            default:Date.now
+            
         }
     }]
-})
+},
+{
+    timestamps:true
+}
+)
 
 module.exports = mongoose.model('todo', ToDoSchema);
