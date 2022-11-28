@@ -112,6 +112,7 @@ exports.editTaskController = async (req, res)=>{
     try{
 
         const {todoId, taskId} = req.params;
+        console.log(req.user)
         const checkTodoExists = await Todo.findById(todoId);
         if(!checkTodoExists)
          throw new Error("no such todo exists");
