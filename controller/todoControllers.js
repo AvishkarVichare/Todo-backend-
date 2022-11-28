@@ -110,3 +110,47 @@ exports.deleteTodoController = async (req, res)=>{
         })
     }
 }
+
+
+// search 
+// what learned you have use "" to wrap as we did with "tasks.main" for getting that field in array object
+exports.searchTodoController = async(req, res)=>{
+    try{
+
+        let {search} = req.query;
+       
+
+        const todos = await Todo.find(
+            { 
+                $or:[
+                    {
+                        $and:[
+                            {title:  new RegExp(search, "i") },
+                            {user:req.user.user_id}
+                        ]
+                    },
+                    {
+                        $and:[
+                            {'tasks.main' : new RegExp(search, "i")},
+                            {user:req.user.user_id}
+                        ]
+                        
+                    }
+                ]
+            } 
+        );
+            res.json({
+                success:true,
+                message:"retrived query",
+                todos
+            })
+
+    }
+    catch(err){
+        // console.log(err)
+        res.status(401).json({
+            success: false,
+            message: err.message,
+        })
+    }
+}
